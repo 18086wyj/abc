@@ -1,17 +1,142 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <!-- 适配移动端设备 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>这是一个测试网站</title>
+    <title>关于我 - 个人介绍</title>
+    <style>
+        /* 全局样式重置，消除默认的边距和内边距 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* 页面背景和整体布局 */
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto; /* 让页面内容居中显示 */
+        }
+
+        /* 头部区域样式 */
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            font-weight: normal;
+        }
+
+        /* 主要内容区域样式 */
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem; /* 各个板块之间的间距 */
+        }
+
+        /* 每个内容板块的样式 */
+        .section {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+            border-left: 4px solid #3498db; /* 左侧小竖线装饰 */
+            padding-left: 0.8rem;
+        }
+
+        p, li {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        ul {
+            padding-left: 1.5rem;
+        }
+
+        /* 联系方式区域样式 */
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* 响应式调整：小屏幕下优化显示 */
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <p>你用沉默敷衍搪塞我的问题 我痛又无言。</p>
-    “被人嘲笑的 才叫做梦想”
-    <p>在生活的长河中，我们每个人都扮演着收藏家的角色，用心地拾起那些散落记忆角落的珍珠，
-        将它们小心翼翼地安置在心房最柔软的位置。这些回忆，或温暖如初阳，照亮前行的道路；
-        或深邃似夜空，引人无限遐想。它们不仅仅是过往的瞬间，更是构成我们个人历史、
-        塑造我们情感世界的宝贵片段。我曾以为，某些记忆，对于你我而言，是同样珍贵且不可磨灭的
-        。那些共同走过的日子，无论是欢笑还是泪水交织的时刻，我都视若珍宝，一一珍藏。每当我翻开记忆的相册，
-        那些画面便如电影般在脑海中缓缓播放，每一个细节都清晰可触，情感依旧鲜明如初。</p>
+    <!-- 头部：姓名和职业标签 -->
+    <header>
+        <h1>吴*杰</h1>
+        <p class="subtitle">计算机爱好者 / 编程学习者</p>
+    </header>
+
+    <!-- 主要内容：个人介绍、技能、经历、联系方式 -->
+    <main>
+        <section class="section">
+            <h2>关于我</h2>
+            <p>你好！我是一名热爱编程的学习者，目前主要专注于网络安全领域的学习和实践。</p>
+            <p>我喜欢通过代码解决实际问题，并且乐于不断学习新的技术和知识，追求写出优雅、高效的代码。</p>
+            <p>除了编程，我还喜欢阅读技术文档、参与开源社区讨论，以及在业余时间尝试做一些小项目练手。</p>
+        </section>
+
+        <section class="section">
+            <h2>技能清单</h2>
+            <ul>
+                <li>编程基础：HTML5、Python，c，MySQL</li>
+                <li>框架/工具：flask，kali</li>
+                <li>其他：计算机基础，计算机网络基础</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>学习/工作经历</h2>
+            <p><strong>2023.09 - 至今</strong>： 计算机应用与技术专业 </p>
+        </section>
+
+        <section class="section">
+            <h2>联系方式</h2>
+            <ul>
+                <li class="contact-item">🐙 GitHub：github.com/18086wyj</li>
+                <li class="contact-item">📱 微信：15549218147</li>
+            </ul>
+        </section>
+    </main>
+</body>
 </html>
