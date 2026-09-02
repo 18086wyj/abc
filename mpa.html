@@ -256,6 +256,29 @@
             border-color: rgba(255,255,255,0.18);
         }
 
+        /* 侧栏内关闭按钮（仅移动端显示，点击收缩左侧栏） */
+        .side-close {
+            display: none;                       /* 桌面端隐藏 */
+            position: absolute;
+            top: 12px; right: 12px;
+            width: 34px; height: 34px;
+            border-radius: 8px;
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--text-2);
+            font-size: 1.1rem;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+        .side-close:hover {
+            background: var(--bg-elev);
+            color: #fff;
+            border-color: rgba(255,255,255,0.2);
+        }
+
         /* Hero：Now Playing 区域 */
         .hero {
             display: grid;
@@ -744,6 +767,7 @@
                 grid-template-areas: "main" "bottombar";
             }
             .menu-toggle { display: flex; align-items: center; justify-content: center; }
+            .side-close { display: flex; }
             .sidebar {
                 position: fixed;
                 top: 0; left: 0; bottom: 0;
@@ -806,6 +830,7 @@
     <div class="app">
         <!-- ========== 左侧栏 ========== -->
         <aside class="sidebar" id="sidebar">
+            <button class="side-close" id="sideClose" aria-label="收起侧栏">✕</button>
             <div class="logo">
                 <div class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V5l8-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
                 <div class="logo-text">个人主页</div>
@@ -1152,6 +1177,9 @@
                 else openSidebar();
             });
             scrim.addEventListener('click', closeSidebar);
+            // 侧栏内 ✕ 按钮：点击收缩左侧栏
+            const sideClose = document.getElementById('sideClose');
+            sideClose.addEventListener('click', closeSidebar);
 
             /* ---------- 2. 导航点击：滚动到对应区块 + 高亮 ---------- */
             navItems.forEach(item => {
