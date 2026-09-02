@@ -752,7 +752,7 @@
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,0.6);
-            z-index: 90;
+            z-index: 95;                       /* 低于侧栏(100)，高于主内容，确保可点击 */
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -773,11 +773,13 @@
                 top: 0; left: 0; bottom: 0;
                 width: 78%; max-width: 300px;
                 z-index: 100;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
+                transform: translateX(-100%) !important;
+                transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 padding-top: 3rem;
+                /* 覆盖桌面端入场动画残留的 transform */
+                animation: none;
             }
-            .sidebar.open { transform: translateX(0); }
+            .sidebar.open { transform: translateX(0) !important; }
             .main { padding: 3.4rem 1.2rem 6rem; }
             .hero {
                 grid-template-columns: 1fr;
@@ -1166,6 +1168,7 @@
                 menuToggle.textContent = '✕';
             }
             function closeSidebar() {
+                console.log('[sidebar] close fired');
                 sidebar.classList.remove('open');
                 scrim.classList.remove('show');
                 menuToggle.classList.remove('open');
@@ -1181,14 +1184,17 @@
             const sideClose = document.getElementById('sideClose');
             sideClose.addEventListener('click', closeSidebar);
 
-            /* ---------- 2. 导航点击：滚动到对应区块 + 高亮 ---------- */
+            /* ---------- 2. 导航点击：滚动到对应区块 + 高亮 ----------
+               主滚动容器是 .main，需手动计算偏移，避免 scrollIntoView 在
+               非 body 滚动容器上行为不一致（尤其手机端）。               */
             navItems.forEach(item => {
                 item.addEventListener('click', function (e) {
                     const targetId = item.dataset.target;
                     const target = document.getElementById(targetId);
-                    if (target) {
+                    if (target && main) {
                         e.preventDefault();
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        const top = target.offsetTop - main.offsetTop - 16; // 留 16px 上边距
+                        main.scrollTo({ top: top, behavior: 'smooth' });
                         setActive(targetId);
                         if (window.innerWidth <= 860) closeSidebar();
                     }
