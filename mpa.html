@@ -88,8 +88,12 @@
             height: 100vh;
             z-index: 9999;
             pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #050507;
             /* 开场结束后整体淡出，所有元素一起消失，不会残留 */
-            animation: overlayFadeOut 0.8s ease-out 2.6s forwards;
+            animation: overlayFadeOut 0.5s ease-out 2.4s forwards;
         }
 
         /* 上下两半遮罩，从中间向上下揭开 */
@@ -99,143 +103,86 @@
             width: 100%;
             height: 50%;
             background-color: #000;
+            z-index: 1;
         }
         .mask-top {
             top: 0;
-            animation: maskUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) 2.6s forwards;
+            animation: maskUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 2.4s forwards;
         }
         .mask-bottom {
             bottom: 0;
-            animation: maskDown 1.2s cubic-bezier(0.22, 1, 0.36, 1) 2.6s forwards;
+            animation: maskDown 0.8s cubic-bezier(0.22, 1, 0.36, 1) 2.4s forwards;
         }
 
-        /* 背景星云：宇宙弥散云，呼吸效果 */
-        .nebula {
+        /* 手机框：浮现 → 屏幕内容渐入 → 放大淡出 */
+        .phone-intro {
+            position: relative;
+            z-index: 2;
+            animation: phoneIn 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+                       phoneOut 0.7s ease-in 2.0s forwards;
+        }
+        .phone-frame {
+            width: 210px;
+            height: 420px;
+            border-radius: 30px;
+            background: linear-gradient(160deg, #17181d, #0e0f14);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 0 46px rgba(41, 128, 185, 0.28), 0 28px 70px rgba(0, 0, 0, 0.6);
+            padding: 12px;
+            position: relative;
+        }
+        .phone-notch {
             position: absolute;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 74px;
+            height: 18px;
+            border-radius: 9px;
+            background: #050507;
+            z-index: 3;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 22px;
+            background:
+                radial-gradient(130% 100% at 50% 0%, rgba(41, 128, 185, 0.16), transparent 55%),
+                radial-gradient(100% 80% at 50% 110%, rgba(142, 68, 173, 0.12), transparent 55%),
+                #0a0b0f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            overflow: hidden;
+            position: relative;
+        }
+        /* 屏幕内：星尘向中心光点聚拢（呼应开场主题，无文字） */
+        .phone-dot {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            filter: blur(60px);
+            background: #ffffff;
+            box-shadow: 0 0 14px rgba(255, 255, 255, 0.85), 0 0 30px rgba(41, 128, 185, 0.55);
             opacity: 0;
+            animation: phoneDotIn 0.6s ease-out 0.8s forwards,
+                       phoneDotPulse 1.4s ease-in-out 1.5s infinite;
         }
-        .nebula-1 {
-            width: 300px;
-            height: 300px;
-            top: 20%;
-            left: 15%;
-            background: radial-gradient(circle, rgba(41, 128, 185, 0.15) 0%, transparent 70%);
-            animation: nebulaDrift 20s ease-in-out infinite, nebulaBreath 8s ease-in-out infinite;
-        }
-        .nebula-2 {
-            width: 260px;
-            height: 260px;
-            bottom: 25%;
-            right: 20%;
-            background: radial-gradient(circle, rgba(142, 68, 173, 0.12) 0%, transparent 70%);
-            animation: nebulaDrift 25s ease-in-out infinite reverse, nebulaBreath 10s ease-in-out infinite reverse;
-        }
-        .nebula-3 {
-            width: 200px;
-            height: 200px;
-            top: 55%;
-            left: 30%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
-            animation: nebulaDrift 18s ease-in-out infinite, nebulaBreath 7s ease-in-out infinite;
-        }
-
-        /* 中心汇聚光点：带呼吸脉动 */
-        .core-dot {
+        .phone-dust {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 4px;
-            height: 4px;
-            background-color: #ffffff;
+            width: var(--ds);
+            height: var(--ds);
+            background: rgba(255, 255, 255, 0.75);
             border-radius: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 8px rgba(255,255,255,0.6), 0 0 20px rgba(41, 128, 185, 0.4);
-            opacity: 0;
-            animation: dotGather 1.8s ease-out forwards,
-                       dotPulse 0.8s ease-in-out 1.2s infinite;
-        }
-
-        /* 光点拉成横线：带细微波动，开场结束后随整体消失 */
-        .horizontal-line {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 1.5px;
-            background: linear-gradient(to right, transparent, #ffffff, transparent);
-            transform: translate(-50%, -50%);
-            filter: blur(0.3px);
-            opacity: 0;
-            box-shadow: 0 0 12px rgba(41, 128, 185, 0.35);
-            animation: lineExpand 1s ease-out 1.6s forwards,
-                       lineFlicker 1.5s ease-in-out 1.8s infinite;
-        }
-
-        /* 横线光晕 */
-        .line-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 60px;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(ellipse at center, rgba(41, 128, 185, 0.18), transparent 70%);
-            filter: blur(10px);
-            opacity: 0;
-            animation: glowExpand 1s ease-out 1.7s forwards;
-        }
-
-        /* 星尘粒子：大小、速度差异化 */
-        .stardust-wrap {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            transform: translate(-50%, -50%);
-        }
-
-        .stardust {
-            position: absolute;
-            background-color: rgba(255,255,255,0.7);
-            border-radius: 50%;
+            box-shadow: 0 0 6px rgba(41, 128, 185, 0.5);
             opacity: 0;
             transform: translate(-50%, -50%);
-            box-shadow: 0 0 4px rgba(41, 128, 185, 0.5);
-            animation: stardustFloat 2.2s ease-in-out forwards;
+            animation: phoneDustGather 1.2s ease-in var(--delay, 0s) forwards;
         }
-
-        /* 12颗星尘：不同位置、大小、速度 */
-        .stardust:nth-child(1)  { --x: -120px; --y: -80px;  --size: 2.5px; --delay: 0s;    }
-        .stardust:nth-child(2)  { --x: 100px;  --y: -90px;  --size: 1.5px; --delay: 0.1s;  }
-        .stardust:nth-child(3)  { --x: -90px;  --y: 70px;   --size: 2px;   --delay: 0.2s;  }
-        .stardust:nth-child(4)  { --x: 110px;  --y: 80px;   --size: 2.5px; --delay: 0.3s;  }
-        .stardust:nth-child(5)  { --x: -140px; --y: 0px;    --size: 1.8px; --delay: 0.15s; }
-        .stardust:nth-child(6)  { --x: 130px;  --y: -10px;  --size: 2.2px; --delay: 0.25s; }
-        .stardust:nth-child(7)  { --x: -60px;  --y: -110px; --size: 1.5px; --delay: 0.35s; }
-        .stardust:nth-child(8)  { --x: 70px;   --y: 100px;  --size: 2px;   --delay: 0.4s;  }
-        .stardust:nth-child(9)  { --x: -110px; --y: 40px;   --size: 2.3px; --delay: 0.45s; }
-        .stardust:nth-child(10) { --x: 90px;   --y: -60px;  --size: 1.8px; --delay: 0.5s;  }
-        .stardust:nth-child(11) { --x: -80px;  --y: -50px;  --size: 2px;   --delay: 0.55s; }
-        .stardust:nth-child(12) { --x: 120px;  --y: 50px;   --size: 1.5px; --delay: 0.6s;  }
-
-        /* 微粒子：横线附近飘散 */
-        .micro-particle {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            background-color: rgba(255,255,255,0.5);
-            border-radius: 50%;
-            opacity: 0;
-            animation: microDrift 2s ease-out forwards;
-        }
-
-        .micro-particle:nth-child(1) { top: 48%; left: 30%; animation-delay: 1.8s; }
-        .micro-particle:nth-child(2) { top: 52%; left: 65%; animation-delay: 1.9s; }
-        .micro-particle:nth-child(3) { top: 47%; left: 70%; animation-delay: 2.0s; }
-        .micro-particle:nth-child(4) { top: 53%; left: 35%; animation-delay: 2.1s; }
 
         /* ========== 主页内容 ========== */
         header {
@@ -485,64 +432,39 @@
             }
         }
 
-        @keyframes dotGather {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
-            60% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.8); }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        /* 手机框浮现 */
+        @keyframes phoneIn {
+            0%   { opacity: 0; transform: scale(0.8) translateY(40px); }
+            65%  { opacity: 1; transform: scale(1.04) translateY(-6px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
-
-        @keyframes dotPulse {
-            0%, 100% { box-shadow: 0 0 8px rgba(255,255,255,0.6), 0 0 20px rgba(41, 128, 185, 0.4); }
-            50% { box-shadow: 0 0 12px rgba(255,255,255,0.8), 0 0 28px rgba(41, 128, 185, 0.6); }
+        /* 手机框放大淡出，过渡到主页 */
+        @keyframes phoneOut {
+            0%   { opacity: 1; transform: scale(1) translateY(0); }
+            100% { opacity: 0; transform: scale(1.5) translateY(-24px); }
         }
-
-        @keyframes lineExpand {
-            0% { width: 0; opacity: 0; }
-            100% { width: 80vw; opacity: 1; }
+        /* 屏幕内内容依次淡入 */
+        /* 中心光点淡入 */
+        @keyframes phoneDotIn {
+            0%   { opacity: 0; transform: scale(0.4); }
+            100% { opacity: 1; transform: scale(1); }
         }
-
-        @keyframes lineFlicker {
-            0%, 100% { opacity: 1; filter: blur(0.3px) brightness(1); }
-            50% { opacity: 0.85; filter: blur(0.5px) brightness(1.1); }
+        /* 中心光点呼吸脉动 */
+        @keyframes phoneDotPulse {
+            0%, 100% { box-shadow: 0 0 14px rgba(255, 255, 255, 0.85), 0 0 30px rgba(41, 128, 185, 0.55); }
+            50% { box-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 44px rgba(41, 128, 185, 0.85); }
         }
-
-        @keyframes glowExpand {
-            0% { width: 0; opacity: 0; }
-            100% { width: 80vw; opacity: 1; }
-        }
-
-        /* 星云漂移+呼吸 */
-        @keyframes nebulaDrift {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(30px, -20px); }
-        }
-        @keyframes nebulaBreath {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(1.08); }
-        }
-
-        @keyframes stardustFloat {
+        /* 星尘从四周向中心聚拢，融入光点 */
+        @keyframes phoneDustGather {
             0% {
                 opacity: 0;
-                width: var(--size);
-                height: var(--size);
-                transform: translate(-50%, -50%) translateX(var(--x)) translateY(var(--y));
+                transform: translate(-50%, -50%) translateX(var(--dx)) translateY(var(--dy)) scale(1);
             }
-            50% {
-                opacity: 0.8;
-            }
+            60% { opacity: 0.9; }
             100% {
                 opacity: 0;
-                width: calc(var(--size) * 0.3);
-                height: calc(var(--size) * 0.3);
-                transform: translate(-50%, -50%) translateX(0) translateY(0);
+                transform: translate(-50%, -50%) translateX(0) translateY(0) scale(0.3);
             }
-        }
-
-        @keyframes microDrift {
-            0% { opacity: 0; transform: translateY(0); }
-            30% { opacity: 0.7; }
-            100% { opacity: 0; transform: translateY(-15px); }
         }
 
         @keyframes maskUp {
@@ -644,14 +566,6 @@
                 backdrop-filter: none;
                 -webkit-backdrop-filter: none;
                 padding: 1.6rem 1.4rem;
-            }
-
-            /* 性能：开场星云去掉 60px 大模糊与常驻动画，改为静态柔和光斑 */
-            .nebula {
-                filter: none;
-                -webkit-filter: none;
-                animation: none !important;
-                opacity: 0.6;
             }
         }
 
@@ -829,40 +743,24 @@
     <!-- 顶部滚动进度条 -->
     <div class="scroll-progress" id="scrollProgress"></div>
 
-    <!-- 开场动画：所有元素都在这个容器里，结束后整体消失 -->
+    <!-- 开场动画：手机轻松显示 -->
     <div class="intro-overlay">
-        <!-- 背景星云 -->
-        <div class="nebula nebula-1"></div>
-        <div class="nebula nebula-2"></div>
-        <div class="nebula nebula-3"></div>
-
         <div class="mask-top"></div>
         <div class="mask-bottom"></div>
-        
-        <div class="stardust-wrap">
-            <div class="stardust"></div>
-            <div class="stardust"></div>
-            <div class="stardust"></div>
-            <div class="stardust"></div>
-            <div class="stardust"></div>
-            <div class="stardust"></div>
-            <div class="stardust"></div>
-            <div class="stardust"></div>
-            <div class="stardust"></div>
-            <div class="stardust"></div>
-            <div class="stardust"></div>
-            <div class="stardust"></div>
+
+        <div class="phone-intro">
+            <div class="phone-frame">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <div class="phone-dust" style="--dx:-46px; --dy:-40px; --ds:2px;  --delay:0.95s;"></div>
+                    <div class="phone-dust" style="--dx:52px;  --dy:-22px; --ds:1.5px; --delay:1.05s;"></div>
+                    <div class="phone-dust" style="--dx:-32px; --dy:42px;  --ds:2.5px; --delay:1.15s;"></div>
+                    <div class="phone-dust" style="--dx:40px;  --dy:38px;  --ds:1.8px; --delay:1.25s;"></div>
+                    <div class="phone-dust" style="--dx:-12px; --dy:-52px; --ds:2px;  --delay:1.0s;"></div>
+                    <div class="phone-dot"></div>
+                </div>
+            </div>
         </div>
-
-        <!-- 微粒子 -->
-        <div class="micro-particle"></div>
-        <div class="micro-particle"></div>
-        <div class="micro-particle"></div>
-        <div class="micro-particle"></div>
-
-        <div class="core-dot"></div>
-        <div class="horizontal-line"></div>
-        <div class="line-glow"></div>
     </div>
 
     <!-- 主页内容 -->
